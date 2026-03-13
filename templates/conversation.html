@@ -1,0 +1,175 @@
+<!-- templates/conversation.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AI Persona Conversation</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .chat-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      height: 70vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .message {
+      max-width: 70%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      align-self: flex-start;
+      background: #e9ecef;
+      word-wrap: break-word;
+    }
+    .message.self {
+      align-self: flex-end;
+      background: #d1e7dd;
+    }
+    .message .sender {
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: block;
+      font-size: 0.9em;
+      color: #495057;
+    }
+    .controls {
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: center;
+    }
+    .personas-list {
+      max-width: 800px;
+      margin: 20px auto;
+      font-weight: bold;
+      color: #343a40;
+    }
+  </style>
+</head>
+<body class="bg-light py-5">
+  <div class="container">
+    <h1 class="text-center mb-4">AI Persona Conversation</h1>
+
+    <div id="personas" class="personas-list text-center mb-4">
+      Personas in this conversation: <span id="personaNames"></span>
+    </div>
+
+    <div id="chat" class="chat-container"></div>
+
+    <div class="controls">
+      <button id="nextBtn" class="btn btn-primary btn-lg">Continue Conversation (Next Persona)</button>
+      <button id="autoBtn" class="btn btn-secondary btn-lg ms-3">Auto-Run 5 Turns</button>
+      <p class="mt-3 text-muted">Conversation ID: <span id="convIdDisplay">-</span></p>
+      <a href="/" class="btn btn-outline-secondary mt-3">← Back to Persona List</a>
+    </div>
+  </div>
+
+  <script>
+    // conv_id is safely injected by Flask
+    const convId = {{ conv_id }};
+    document.getElementById('convIdDisplay').textContent = convId;
+
+    let personas = [];
+    let currentSpeakerIndex = 0;
+
+    async function loadConversation() {
+      const res = await fetch(`/get_conversation/${convId}`);
+      if (!res.ok) {
+        alert('Failed to load conversation. It may have been lost (e.g., server restart). Return to home and start a new one.');
+        window.location.href = '/';
+        return;
+      }
+      const data = await res.json();
+      personas = data.personas;
+      renderPersonas();
+      renderMessages(data.messages);
+
+      if (data.messages.length === 0) {
+        generateNextMessage();
+      }
+    }
+
+    function renderPersonas() {
+      const names = personas.map(p => p.name).join(' ↔ ');
+      document.getElementById('personaNames').textContent = names;
+    }
+
+    function renderMessages(messages) {
+      const chat = document.getElementById('chat');
+      chat.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = 'message';
+        div.innerHTML = `<span class="sender">${msg.name}:</span> ${msg.content.replace(/\n/g, '<br>')}`;
+        chat.appendChild(div);
+      });
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function generateNextMessage(speakerIndex = null) {
+      if (personas.length === 0) return;
+
+      const nextBtn = document.getElementById('nextBtn');
+      const originalText = nextBtn ? nextBtn.textContent : 'Continue Conversation (Next Persona)';
+      if (nextBtn) {
+        nextBtn.disabled = true;
+        nextBtn.textContent = 'Writing...';
+      }
+
+      const indexToUse = speakerIndex !== null ? speakerIndex : currentSpeakerIndex;
+      const body = { conv_id: convId, speaker_index: indexToUse };
+
+      try {
+        const res = await fetch('/next_message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        if (res.ok) {
+          const newMsg = await res.json();
+          const chat = document.getElementById('chat');
+          const div = document.createElement('div');
+          div.className = 'message';
+          div.innerHTML = `<span class="sender">${newMsg.name}:</span> ${newMsg.content.replace(/\n/g, '<br>')}`;
+          chat.appendChild(div);
+          chat.scrollTop = chat.scrollHeight;
+
+          currentSpeakerIndex = (indexToUse + 1) % personas.length;
+        } else {
+          alert('Error generating message. Check console or API limits.');
+          console.error(await res.text());
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network or server error while generating message.');
+      } finally {
+        if (nextBtn) {
+          nextBtn.disabled = false;
+          nextBtn.textContent = originalText;
+        }
+      }
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', () => generateNextMessage());
+
+    document.getElementById('autoBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('autoBtn');
+      btn.disabled = true;
+      btn.textContent = 'Running...';
+      for (let i = 0; i < 5; i++) {
+        await generateNextMessage();
+        await new Promise(r => setTimeout(r, 1500));
+      }
+      btn.disabled = false;
+      btn.textContent = 'Auto-Run 5 Turns';
+    });
+
+    loadConversation();
+  </script>
+</body>
+</html>

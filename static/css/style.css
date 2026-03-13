@@ -1,0 +1,231 @@
+/* ===== style.css – Simple Gray Elegance ===== */
+/* Inspired by templatemo_121_simple_gray.jpg – minimal, airy, professional */
+
+:root {
+  --gray-bg: #f5f7fa;
+  --card-white: #ffffff;
+  --gray-light: #eef2f6;
+  --gray-mid: #cbd5e1;
+  --gray-dark: #334155;
+  --accent-charcoal: #1e2b3c;
+  --accent-soft-green: #3b5e4c;
+  --border-subtle: #e2e8f0;
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.02);
+  --radius-card: 24px;
+  --radius-input: 16px;
+  --radius-button: 40px;
+}
+
+body {
+  background-color: var(--gray-bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1a1e24;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 1000px;
+}
+
+/* ----- Headers ----- */
+.brand-heading {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--gray-dark);
+  font-size: 2.8rem;
+}
+
+.lead {
+  color: #64748b !important;
+  font-weight: 350;
+  letter-spacing: -0.01em;
+}
+
+/* ----- Elegant Cards ----- */
+.persona-card {
+  border: none;
+  border-radius: var(--radius-card);
+  background-color: var(--card-white);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.persona-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.03), 0 4px 8px rgba(0, 0, 0, 0.02);
+}
+
+.icon-placeholder {
+  font-size: 2rem;
+  line-height: 1;
+  background: var(--gray-light);
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--gray-dark);
+}
+
+/* ----- Form Elements (simple gray elegance) ----- */
+.elegant-input {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-input);
+  padding: 0.875rem 1.25rem;
+  font-size: 1rem;
+  background-color: #fafcfc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.elegant-input:focus {
+  border-color: #94a3b8;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(51, 65, 85, 0.04);
+  background-color: white;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #64748b;
+  margin-bottom: 0.35rem;
+}
+
+/* ----- Buttons (refined, muted tones) ----- */
+.btn-elegant {
+  border-radius: var(--radius-button);
+  padding: 0.7rem 2rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border: none;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.btn-elegant:active {
+  transform: scale(0.97);
+}
+
+.btn-primary.btn-elegant {
+  background-color: var(--accent-charcoal);
+  color: white;
+}
+
+.btn-primary.btn-elegant:hover {
+  background-color: #2c3e50;
+  box-shadow: 0 6px 14px rgba(30, 43, 60, 0.12);
+}
+
+.btn-success.btn-elegant {
+  background-color: var(--accent-soft-green);
+  color: white;
+}
+
+.btn-success.btn-elegant:hover {
+  background-color: #2c4a3a;
+  box-shadow: 0 6px 14px rgba(59, 94, 76, 0.12);
+}
+
+.btn-elegant:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  background-color: var(--gray-mid);
+}
+
+/* ----- Persona List (clean, border‑only) ----- */
+.elegant-list-group {
+  background: transparent;
+  border: none;
+}
+
+.elegant-list-item {
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1.25rem 0;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.elegant-list-item:last-child {
+  border-bottom: none;
+}
+
+.persona-name {
+  font-size: 1.1rem;
+  color: #1e2b3c;
+  font-weight: 600;
+}
+
+.persona-desc {
+  color: #64748b;
+  display: block;
+  margin-top: 0.2rem;
+  line-height: 1.5;
+}
+
+/* ----- Checkbox area (cards with subtle border) ----- */
+.elegant-check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.elegant-check-item {
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 1rem 1.25rem;
+  margin: 0;
+  background: white;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.elegant-check-item:hover {
+  background: #fafcfc;
+  border-color: #cbd5e1;
+}
+
+.custom-check {
+  accent-color: var(--accent-charcoal);
+  width: 1.2em;
+  height: 1.2em;
+  margin-top: 0.2em;
+}
+
+.form-check-label {
+  color: #1e2b3c;
+  font-size: 0.98rem;
+}
+
+/* ----- Empty state / hints ----- */
+.empty-message {
+  color: #94a3b8 !important;
+  font-style: italic;
+  font-weight: 350;
+  padding-left: 0.5rem;
+  border-left: 3px solid #e2e8f0;
+}
+
+/* ----- Footer (simple, with top border) ----- */
+footer {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 2rem;
+  margin-top: 3rem !important;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+/* ----- Responsive fine-tuning ----- */
+@media (max-width: 768px) {
+  .brand-heading {
+    font-size: 2.2rem;
+  }
+  .persona-card .card-body {
+    padding: 1.8rem !important;
+  }
+  .btn-elegant {
+    width: 100%;
+  }
+}
