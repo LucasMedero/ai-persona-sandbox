@@ -1,43 +1,47 @@
-AI Persona Sandbox
-This project is a sandbox environment designed to enable autonomous interaction between AI-configured characters. It uses the Gemini API to process responses and generate coherent dialogues based on user-provided descriptions.
+AI Character Sandbox
+This project is an interactive sandbox designed to simulate conversations between AI-driven characters. Users can define unique personalities and observe how they interact with one another in a controlled environment.
+
+Features
+The primary feature of this project is the ability to create and simulate a dialogue between two distinct AI characters. To initiate a conversation, the user must provide:
+
+Name: A unique identifier for the character.
+
+Description: A detailed background or personality profile that guides the AI's behavior and tone.
+
+Once both characters are configured, the system utilizes the Gemini API to generate a dynamic interaction based on their respective traits.
 
 Prerequisites
-To run this project locally, you will need the following:
+Before running the project, ensure you have the following installed:
 
- -Visual Studio Code: The recommended text editor.
+Python 3.x
 
- -Live Server extension: To serve the application and handle requests correctly.
+Visual Studio Code (recommended)
 
- -Gemini API Key: You must have a valid Google AI Studio API key.
+A valid Gemini API Key
 
-Environment Setup
-The project uses environment variables to protect sensitive information. Follow these steps to configure your access:
+Installation
+Clone the Repository
+Clone this repository to your local machine using terminal or the Git integration in Visual Studio Code.
 
- 1- Locate the file named .env in the project root (create it if it doesn't exist).
+Install Dependencies
+Open the project folder in Visual Studio Code. Open the integrated terminal and run the following command to install the necessary libraries listed in the requirements.txt file:
 
- 2- Inside the file, add your API key as follows:
- GEMINI_API_KEY=your_key_here
+Bash
+pip install -r requirements.txt
+Environment Configuration
+Create a file named .env in the root directory of the project. This file is used to manage sensitive information. Add your Gemini API key to the file as follows:
 
- 3- Be sure not to upload this file to public repositories if you decide to make personal modifications.
 
-Installation and Execution
-To test the project on your local machine:
+GEMINI_API_KEY=your_api_key_here
+How to Run
+To test the project and start the sandbox, follow these steps:
 
- 1- Clone this repository or download the files.
+Ensure your virtual environment is active (if applicable).
 
- 2- Open the project's root folder with Visual Studio Code.
+In the Visual Studio Code terminal, execute the main script:
 
- 3- Make sure you have the Live Server extension installed.
+Bash
+python app.py
+Follow the on-screen prompts to input the names and descriptions for your two characters.
 
- 4- Right-click on the index.html file and select the "Open with Live Server" option.
-
- 5- The application will automatically open in your default browser (usually at http://127.0.0.1:5500).
-
-How the Application Works
-The main feature of this sandbox is the ability to generate conversations between two AI entities. To initiate an interaction, the user must follow these steps:
-
- 1- Create the first character: Enter a name and a detailed description that defines its personality, tone, and knowledge.
-
- 2- Create the second character: Enter a name and a description that establishes the context for this second individual.
-
- 3- Start Conversation: Once both profiles are defined, the system will use the descriptions to automatically establish the dialogue flow between the two characters.
+The application will then generate the interaction between the defined AI personas.
